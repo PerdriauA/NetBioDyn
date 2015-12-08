@@ -3,28 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package netbiodyn.ihm;
 
-import com.jogamp.opengl.awt.GLJPanel;
-import com.jogamp.opengl.util.FPSAnimator;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
+package netbiodyn.ihm; //On crée un package, cette ligne indiquant que le fichier actuel sera dans ce package 
+
+import com.jogamp.opengl.awt.GLJPanel; //Permet l'affichage d'OpenGL ? 
+import com.jogamp.opengl.util.FPSAnimator; //Obtenir une animation en images/seconde sans tout le temps le recalculer (diminution de l'utilisation du CPU)
+import java.awt.Container; //Elément d'Abstract Window Toolkit (AWT) contenant d'autres composants du même toolkit (équivalent du container de Swing ?)
+import java.awt.Dimension; //Contient la largeur et la hauteur d'un objet (AWT uniquement ?)
+import java.awt.event.ActionEvent; //Permet la création d'une action à partir d'une action sur un objet AWT (clic,...)
+import java.awt.event.KeyEvent; // Permet la création d'une action à partir d'une touche du clavier (appuyée, tapée ou relâchée)
+import java.awt.event.WindowAdapter; //Classe abstraite pour recevoir les événements d'une fenêtre
+import java.awt.event.WindowEvent; // Permet de signaler les changements de statut d'une fenêtre (ouverte, fermée, réduite,...)
+import java.io.File; // Permet d'utiliser des fichiers dans la classe
+import java.util.ArrayList; //Permet de créer des ArrayListes dans la classe
+import java.util.HashMap;// Permet de créer des HashMaps dans la classe
+import java.util.List; // Permet de créer des Listes dans la classe
+import javax.swing.AbstractAction; //Interface pour les objets de type Action (définition de base des get et set par exemple)
+import javax.swing.ActionMap; //En association avec InputMap ci-dessous, donne une action particulière quand celle-ci est appelée (via une touche du clavier ?)
 import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
-import netbiodyn.AllInstances;
+import javax.swing.JComponent; //Permet de créer tous les composants de Swing (affichage graphique)
+import javax.swing.JFrame; //Permet d'afficher une fenêtre via Swing
+import javax.swing.JOptionPane; //Permet d'afficher des fenêtre de dialogue
+import javax.swing.KeyStroke; //Permet de faire une action selon la touche appuyée
+import netbiodyn.AllInstances; //Pour tous les netbiodyn.* : import d'autres classes du logiciel
 import netbiodyn.InstanceReaxel;
 import netbiodyn.Model;
 import netbiodyn.Behavior;
@@ -37,11 +38,11 @@ import netbiodyn.util.UtilAnimatedGifEncoder;
 import netbiodyn.util.UtilDivers;
 import netbiodyn.util.UtilFileFilter;
 import netbiodyn.util.UtilPoint3D;
-import jadeAgentServer.util.Parameter;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import netbiodyn.RunnableSimulator;
+import jadeAgentServer.util.Parameter; //JADE (Java Agent DEvelopment Framework) permet l'implémentation de systèmes multi-agents
+import java.io.IOException; //Permet de créer/utiliser des exceptions I/O (ou système)
+import java.util.logging.Level; //Permet d'obtenir un historique d'événements, en particulier les différents niveaux (si tout se passe bien dans l'exécution ou non)
+import java.util.logging.Logger; //Permet d'afficher des messages de log pour un élément d'une application (ou une application elle-même)
+import netbiodyn.RunnableSimulator; //Permet de lancer l'application
 
 /**
  * Make the link between the views and the model according to the MVC pattern. -
@@ -54,17 +55,17 @@ import netbiodyn.RunnableSimulator;
  */
 public class Controller {
 
-    private final static int FRAME_WIDTH = 900;
-    private final static int FRAME_HEIGHT = 600;
-    private final int init_x = 100, init_y = 100, init_z = 1;
+    private final static int FRAME_WIDTH = 900; //définit la largeur de la fenêtre de l'application
+    private final static int FRAME_HEIGHT = 600; //définit la hauteur de la fenêtre de l'application
+    private final int init_x = 100, init_y = 100, init_z = 1; //vue en 2D (chercher pour init_x et init_y, pas de différences si changement aux premiers tests)
 
-    private final Environment env;
-    private JFrame frame3D;
-    private final Model model;
+    private final Environment env; //initialisation dans l'objet de la partie Environnement de la fenêtre
+    private JFrame frame3D; //initialisation dans l'objet de la fenêtre "3D view" (après clic sur le bouton "3D <=>")
+    private final Model model; //initialisation dans l'objet 
     private final Simulator simulator;
     private final JFrame frame;
     // An array of Command used to allow the "undo" operation
-    private final ArrayList<Command> lastCommand;
+    private final ArrayList<Command> lastCommand; 
     private final int maxMemory = 20;
 
     /**
