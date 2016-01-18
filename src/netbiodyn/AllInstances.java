@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package netbiodyn;
+package netbiodyn;// On crée un package, cette ligne indiquant que le fichier actuel sera dans ce package 
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.ArrayList; // Rend possible la création d'un tableau 
+import java.util.HashMap; // Rend possible la création d'un hashmap
 
 /**
  *
  * @author riviere
  */
+
 public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable{
 
-    private final InstanceReaxel[][][] matrix; // position (acces rapides) des instances d'entites
+    private final InstanceReaxel[][][] matrix; // position (accès rapide) des instances d'entites
     private HashMap<String, Integer> entitiesBook; // Nombre d'entités par type
     private int X;
     private int Y;

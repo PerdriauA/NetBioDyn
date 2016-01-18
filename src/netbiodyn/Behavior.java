@@ -19,38 +19,39 @@
  *
  * Created on 15 octobre 2007, 19:59
  */
-package netbiodyn;
+package netbiodyn; //On crée un package, cette ligne indiquant que le fichier actuel sera dans ce package 
+
 
 //import bsh.Interpreter;
 import netbiodyn.ihm.Env_Parameters;
 import netbiodyn.ihm.WndEditElementDeReaction;
 import netbiodyn.util.UtilPoint3D;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
+import java.awt.Point; // Création d'un point aux coordonnées (x,y) 
+import java.util.ArrayList; // Création d'un tableau
+import java.util.HashMap; // Création d'une HashMap
+import javax.swing.JTextArea; // Création d'un zone de texte 
+import javax.swing.JTextPane; // Création d'une fenêtre / zone ?
 import netbiodyn.util.RandomGen;
 
 /**
  *
  * @author ballet
  */
-public class Behavior extends Moteur {
+public class Behavior extends Moteur { //
 
     private Env_Parameters parameters;
     private final InstanceReaxel entiteVide;
-    public JTextPane _description = new JTextPane();
+    public JTextPane _description = new JTextPane(); // création d'une nouvelle fenêtre / zone
     private double _k = 1;
 
-    public ArrayList<String> _reactifs = new ArrayList<>();
-    public ArrayList<String> _produits = new ArrayList<>();
-    public ArrayList<String> _positions = new ArrayList<>();
+    public ArrayList<String> _reactifs = new ArrayList<>(); // Création d'un tableau qui va contenir les réactifs
+    public ArrayList<String> _produits = new ArrayList<>(); // Création d'un tableau qui va contenir les produits
+    public ArrayList<String> _positions = new ArrayList<>(); // Création d'un tableau qui va contenir les positions
 
-    public ArrayList<InstanceReaction> _reactionsPossibles = new ArrayList<InstanceReaction>();
-    public JTextArea _code = new JTextArea();
+    public ArrayList<InstanceReaction> _reactionsPossibles = new ArrayList<InstanceReaction>(); //Création d'une liste des réactions possibles
+    public JTextArea _code = new JTextArea(); 
     public boolean _code_parse = false;
-    public ArrayList<WndEditElementDeReaction> _ListElementsReactions = new ArrayList<WndEditElementDeReaction>();
+    public ArrayList<WndEditElementDeReaction> _ListElementsReactions = new ArrayList<WndEditElementDeReaction>(); //Création d'une liste contenant les éléments de la réaction
 
     /**
      * Creates new form MoteurReaction
