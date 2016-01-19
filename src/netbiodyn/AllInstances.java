@@ -15,7 +15,7 @@ import java.util.HashMap; // Rend possible la création d'un hashmap
 
 public class AllInstances extends ArrayList<InstanceReaxel> implements Cloneable{
 
-    private final InstanceReaxel[][][] matrix; // position (accès rapide) des instances d'entites
+    private final InstanceReaxel[][][] matrix; // position (accès rapide) des instances d'entites tableau a 3
     private HashMap<String, Integer> entitiesBook; // Nombre d'entités par type
     private int X;
     private int Y;
