@@ -19,11 +19,12 @@
  *
  * Created on 15 octobre 2007, 15:23
  */
-package netbiodyn;
+package netbiodyn; //On crée un package, cette ligne indiquant que le fichier actuel sera dans ce package 
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.awt.image.BufferedImage; //Création d'une image avec un possible accès à ses données
+import java.util.ArrayList; //Création de listes
+import java.util.HashMap; //Création de hashmaps
 
 /**
  *
@@ -35,12 +36,13 @@ public class Entity extends ProtoSimplexel {
      * Creates new form Entite
      */
     public Entity() {
-        initComponents();
+        initComponents(); 
         //_description.setContentType("text/rtf");
         //setBounds(0-200,0-200, 134-200, 73-200);
     }
 
     @Override
+    //Clone d'une entité existante ? 
     public Entity clone() {
         Entity reaxel = new Entity();
         reaxel.setEtiquettes(getEtiquettes());
@@ -94,12 +96,12 @@ public class Entity extends ProtoSimplexel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane(); //création d'un élément avec ascenseurs horizontaux et verticaux
+        jTextArea1 = new javax.swing.JTextArea(); //création d'une zone de texte
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextArea1.setColumns(20); //la zone de texte mesure 20 caractères de large
+        jTextArea1.setRows(5); // la zone de texte contient de quoi mettre 5 lignes de texte (au total donc 100 caractères dans la zone de texte)
+        jScrollPane1.setViewportView(jTextArea1); //positionnement de la zone de texte dans l'élément avec ascenseurs
     }// </editor-fold>//GEN-END:initComponents
 
 
