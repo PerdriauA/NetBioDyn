@@ -68,6 +68,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         // Set language
         if (Lang.getInstance().getLang().equals("FR")) {
             jLabelNom.setText("Nom");
+            jLabelComp.setText("Compartiment");
             jLabelEntite.setText("Entité");
             jLabelVie.setText("1/2 Vie (0=infini)");
             jLabelApp.setText("Apparence");
@@ -80,9 +81,11 @@ public class WndEditNoeud extends javax.swing.JDialog {
             String[] formes_fr = {"Disque", "Carre", "Triangle", "Losange", "Etoile", "Pois", "Bruit"};
             DefaultComboBoxModel model_fr = new DefaultComboBoxModel(formes_fr);
             comboBox_formes.setModel(model_fr);
+            comboBox_compartment.setModel(model_fr);
 
         } else {
             jLabelNom.setText("Name");
+            jLabelComp.setText("Compartment");
             jLabelEntite.setText("Entity");
             jLabelVie.setText("1/2 Life (0=infinite)");
             jLabelApp.setText("Appearance");
@@ -95,6 +98,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             String[] formes_fr = {"Disc", "Square", "Triangle", "Diamon", "Star", "Pots", "Noise"};
             DefaultComboBoxModel model_fr = new DefaultComboBoxModel(formes_fr);
             comboBox_formes.setModel(model_fr);
+            comboBox_compartment.setModel(model_fr);
         }
 
         if (reaxel != null) {
@@ -113,7 +117,8 @@ public class WndEditNoeud extends javax.swing.JDialog {
         // Apparence
         buttonCouleur.setBackground(_cli.Couleur);
         comboBox_formes.setSelectedIndex(_cli._forme);
-
+        
+        comboBox_compartment.setSelectedIndex(_cli._forme);
         richTextBox_description.setText(_cli.getDescription().getText());
         jCheckBox_vidable.setSelected(_cli.Vidable);
             //this.setSize(new Dimension(WndEditEntite.WIDTH,WndEditEntite.HEIGHT+320));
@@ -140,11 +145,13 @@ public class WndEditNoeud extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabelNom = new javax.swing.JLabel();
+        jLabelComp = new javax.swing.JLabel();
         jLabelVie = new javax.swing.JLabel();
         jLabelApp = new javax.swing.JLabel();
         textBox1 = new javax.swing.JTextField();
         textBox_demie_vie = new javax.swing.JTextField();
         comboBox_formes = new javax.swing.JComboBox();
+        comboBox_compartment = new javax.swing.JComboBox();
         buttonCouleur = new javax.swing.JButton();
         jCheckBox_vidable = new javax.swing.JCheckBox();
         button_img = new javax.swing.JButton();
@@ -172,16 +179,21 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jLabelNom.setText("Nom");
         getContentPane().add(jLabelNom);
         jLabelNom.setBounds(10, 40, 50, 15);
-
+        
+        jLabelComp.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelComp.setText("Compartiment");
+        getContentPane().add(jLabelComp);
+        jLabelComp.setBounds(10, 70, 80, 15);
+        
         jLabelVie.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelVie.setText("Demi-vie (0=infinie)");
         getContentPane().add(jLabelVie);
-        jLabelVie.setBounds(10, 70, 92, 15);
+        jLabelVie.setBounds(10, 100, 92, 15);
 
         jLabelApp.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelApp.setText("Apparence");
         getContentPane().add(jLabelApp);
-        jLabelApp.setBounds(10, 100, 70, 15);
+        jLabelApp.setBounds(10, 130, 70, 15);
 
         textBox1.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         textBox1.setText("nom");
@@ -196,12 +208,17 @@ public class WndEditNoeud extends javax.swing.JDialog {
         textBox_demie_vie.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         textBox_demie_vie.setText("0");
         getContentPane().add(textBox_demie_vie);
-        textBox_demie_vie.setBounds(150, 70, 130, 20);
+        textBox_demie_vie.setBounds(150, 100, 130, 20);
 
         comboBox_formes.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         comboBox_formes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Disque", "Carre", "Triangle", "Losange", "Etoile", "Pois", "Bruit" }));
         getContentPane().add(comboBox_formes);
-        comboBox_formes.setBounds(160, 100, 120, 21);
+        comboBox_formes.setBounds(160, 130, 120, 21);
+        
+        comboBox_compartment.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        comboBox_compartment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Disque", "Carre", "Triangle", "Losange", "Etoile", "Pois", "Bruit" }));
+        getContentPane().add(comboBox_compartment);
+        comboBox_compartment.setBounds(120, 70, 120, 21);
 
         buttonCouleur.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         buttonCouleur.setText("Couleur");
@@ -211,7 +228,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(buttonCouleur);
-        buttonCouleur.setBounds(80, 100, 80, 23);
+        buttonCouleur.setBounds(80, 130, 80, 21);
 
         jCheckBox_vidable.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jCheckBox_vidable.setSelected(true);
@@ -221,7 +238,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         jCheckBox_vidable.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jCheckBox_vidable.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         getContentPane().add(jCheckBox_vidable);
-        jCheckBox_vidable.setBounds(10, 160, 110, 20);
+        jCheckBox_vidable.setBounds(10, 190, 110, 20);
 
         button_img.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         button_img.setText("Image");
@@ -231,7 +248,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_img);
-        button_img.setBounds(80, 130, 80, 23);
+        button_img.setBounds(80, 160, 80, 23);
 
         button_pas_image.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         button_pas_image.setText("Sans image");
@@ -241,7 +258,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_pas_image);
-        button_pas_image.setBounds(160, 130, 120, 23);
+        button_pas_image.setBounds(160, 160, 120, 23);
 
         button_OK.setBackground(new java.awt.Color(153, 255, 153));
         button_OK.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -257,7 +274,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_OK);
-        button_OK.setBounds(0, 180, 280, 23);
+        button_OK.setBounds(0, 220, 280, 23);
 
         button_CANCEL.setBackground(new java.awt.Color(255, 153, 153));
         button_CANCEL.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
@@ -273,7 +290,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
             }
         });
         getContentPane().add(button_CANCEL);
-        button_CANCEL.setBounds(293, 180, 210, 23);
+        button_CANCEL.setBounds(293, 220, 210, 23);
 
         jLabelDescr.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelDescr.setText("Description de l'entite");
@@ -302,7 +319,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         richTextBox_description.setLineWrap(true);
         richTextBox_description.setRows(5);
         getContentPane().add(richTextBox_description);
-        richTextBox_description.setBounds(300, 69, 190, 100);
+        richTextBox_description.setBounds(300, 69, 190, 130);
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(300, 71, 2, 2);
 
@@ -312,7 +329,7 @@ public class WndEditNoeud extends javax.swing.JDialog {
         getContentPane().add(jLabel19);
         jLabel19.setBounds(0, 0, 500, 30);
 
-        setSize(new java.awt.Dimension(533, 253));
+        setSize(new java.awt.Dimension(533, 300));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -478,7 +495,9 @@ public class WndEditNoeud extends javax.swing.JDialog {
         // Apparence
         _cli.Couleur = buttonCouleur.getBackground();
         _cli._forme = comboBox_formes.getSelectedIndex();
-            
+        
+        // _cli._Compartment = comboBox_compartement.getSelectedIndex();
+        
         try {
             _cli.DemieVie = Double.parseDouble(textBox_demie_vie.getText());
         } catch (Exception e) {
@@ -513,12 +532,14 @@ public class WndEditNoeud extends javax.swing.JDialog {
     private javax.swing.JButton button_img;
     private javax.swing.JButton button_pas_image;
     private javax.swing.JComboBox comboBox_formes;
+    private javax.swing.JComboBox comboBox_compartment;
     private javax.swing.JCheckBox jCheckBox_vidable;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabelApp;
     private javax.swing.JLabel jLabelDescr;
     private javax.swing.JLabel jLabelEntite;
     private javax.swing.JLabel jLabelNom;
+    private javax.swing.JLabel jLabelComp;
     private javax.swing.JLabel jLabelVie;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea richTextBox_description;
