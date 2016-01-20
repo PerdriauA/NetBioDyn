@@ -57,9 +57,8 @@ public class Behavior extends Moteur { //
      * Creates new form MoteurReaction
      */
     public Behavior() {
-        initComponents(); // initialisation de la fenêtre du comportement
-        // Mise en placedes boutons, mais de manière non cliquable
-        button_move.setVisible(false); 
+        initComponents();
+        button_move.setVisible(false);
         button_display_relations.setVisible(false);
         button_timer.setVisible(false);
         boxManipulated.setVisible(false);
@@ -71,44 +70,42 @@ public class Behavior extends Moteur { //
             _positions.add("212101210");
         }
 
-        // Instanciation d'une entité vide
+        // Instanciation d'une entite vide
         entiteVide = new InstanceReaxel();
         entiteVide.setNom("0");
     }
 
     @Override
     public Behavior clone() {
-        Behavior m = new Behavior(); //Création d'un nouveau comportement
+        Behavior m = new Behavior();
         m.setEtiquettes(getEtiquettes());
-        m._description.setText(_description.getText().replace('\n', '§')); //Mise en place de la description
-        m._reactifs = (ArrayList<String>) _reactifs.clone(); //Clone des réactifs pour ce comportement
-        m._produits = (ArrayList<String>) _produits.clone(); //Clone des produits pour ce comportement
-        m._positions = (ArrayList<String>) _positions.clone(); //Clone des positions pour ce comportement
-        m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>)  _ListElementsReactions.clone(); //Clone des éléments de la réaction pour ce comportement
+        m._description.setText(_description.getText().replace('\n', '§'));
+        m._reactifs = (ArrayList<String>) _reactifs.clone();
+        m._produits = (ArrayList<String>) _produits.clone();
+        m._positions = (ArrayList<String>) _positions.clone();
+        m._ListElementsReactions = (ArrayList<WndEditElementDeReaction>) _ListElementsReactions.clone();
         m.set_k(get_k());
         return m;
     }
 
-    //Changement de nom de réactif ?
     public void protoReaxelNameChanged(String oldName, String newName) {
-        ArrayList<String> reactifs = (ArrayList<String>) _reactifs.clone(); //Clone de la liste des réactifs du comportement
+        ArrayList<String> reactifs = (ArrayList<String>) _reactifs.clone();
         for (int i = 0; i < reactifs.size(); i++) {
-            String _reactif = reactifs.get(i); // On récupère l'élément de la liste clonée des réactifs
-
+            String _reactif = reactifs.get(i);
             if (_reactif.equals(oldName)) {
-                _reactif = newName; //Si le réactif a le nom indiqué, on change son nom
-                _reactifs.remove(i); // On supprime le réactif modifié de la liste des réactifs
-                _reactifs.add(i, _reactif); //On rajoute le réactif avec le nouveau nom à la position i ?
+                _reactif = newName;
+                _reactifs.remove(i);
+                _reactifs.add(i, _reactif);
             }
         }
         
-        ArrayList<String> prod = (ArrayList<String>) _produits.clone(); //Clone de la liste des produits du comportement
+        ArrayList<String> prod = (ArrayList<String>) _produits.clone();
         for (int i = 0; i < prod.size(); i++) {
-            String p = prod.get(i); // On récupère l'élément de la liste clonée des produits
+            String p = prod.get(i);
             if (p.equals(oldName)) {
-                p = newName; //Si le produit a le nom indiqué, on change son nom
-                _produits.remove(i); // On supprime le produit modifié de la liste des produits
-                _produits.add(i, p); //On rajoute le produit avec le nouveau nom à la position i ?
+                p = newName;
+                _produits.remove(i);
+                _produits.add(i, p);
             }
         }
         
@@ -126,33 +123,32 @@ public class Behavior extends Moteur { //
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(204, 204, 255)); //Mise en place d'un fond de couleur lavande
-        setTitre("Titre"); 
+        setBackground(new java.awt.Color(204, 204, 255));
+        setTitre("Titre");
     }// </editor-fold>//GEN-END:initComponents
 
     public void computeReactions(Simulator s, Env_Parameters param, AllInstances instances, int time) {
-        this.setParameters(param); //mise en place des paramètres de la réaction
-        _reactionsPossibles = new ArrayList<>(); //création d'une nouvelle liste pour les réactions possibles
+        this.setParameters(param);
+        _reactionsPossibles = new ArrayList<>();
         this.simuler_semi_situee(instances, time);
         s.decrementer_nb_processus_a_traiter();
     }
 
     public ArrayList<InstanceReaction> getReactionsPossibles() {
-        return _reactionsPossibles; //obtenir la liste des réactions possibles
+        return _reactionsPossibles;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Behavior) { //Si l'objet recherché correspond au comportemet
-            Behavior r = (Behavior) o; // L'objet recherché devient un comportement
+        if (o instanceof Behavior) {
+            Behavior r = (Behavior) o;
             return ((r.getEtiquettes().equals(this.getEtiquettes()))
                     && (r._reactifs.size() == this._reactifs.size())
-                    && (r._produits.size() == this._produits.size())); //On en retourne les étiquettes, la liste des réactifs et la liste des produits
+                    && (r._produits.size() == this._produits.size()));
         }
-        return false; // si ce n'est aps le cas, on retiurne False
+        return false;
     }
 
-    // ?
     private boolean zoneAutorisee(int numReactif, int x0, int y0, int z0, int dx, int dy, int dz) {
         // Bordures
         if (x0 + dx < 0 || x0 + dx > getParameters().getX() - 1 || y0 + dy < 0 || y0 + dy > getParameters().getY() - 1) {
@@ -201,27 +197,29 @@ public class Behavior extends Moteur { //
     }
 
     public void simuler_semi_situee(AllInstances instances, int time) {
-        HashMap<String, Point> dico_rea = new HashMap<>(); //Création de la liste contenant la liste des réactions (et les coordonnées ?)
+        HashMap<String, Point> dico_rea = new HashMap<>();
 
         if (_reactifs.size() <= 0) {
             return;
         }
-        //Pour tous les éléments manipulés (compartiment, controle_atome,...), on recherche le clinamon 'molecule C' pour obtenir sa pseudoforme pour la suite si controle atome (?)
+        //pour tout les manipule (compartiment, controle_atome,...) 
+        // recherche du clinamon 'molecule C' pour obtenir sa pseudoforme pour la suite
+        //si controle atome
         InstanceReaxel c_a;
 
         int xb, yb, zb, x, y, z;
 
-        for (int j = instances.getSize() - 1; j >= 0; j--) { //parcourt des instances en sens décroissant
-            c_a = instances.getInList(j); 
-            //recherche d'une molécule A  dans la liste
+        for (int j = instances.getSize() - 1; j >= 0; j--) {
+            c_a = instances.getInList(j);
+            //recherche d'une molecule A  dans la liste
 
             if (c_a.getNom().equals(_reactifs.get(0)) && c_a.isSelectionne() == false) {
-                x = c_a.getX(); //obtient la position x de l'instance ?
-                y = c_a.getY(); //obtient la position y de l'instance ?
-                z = c_a.getZ(); //obtient la position z de l'instance ?
+                x = c_a.getX();
+                y = c_a.getY();
+                z = c_a.getZ();
 
-                // Teste si la reaction a lieu ou pas
-                double hasard = RandomGen.getInstance().nextDouble(); 
+                // Test si la reaction a lieu ou pas
+                double hasard = RandomGen.getInstance().nextDouble();
                 if (hasard < this._k) {
                     int x_min, x_max, y_min, y_max, z_min, z_max;
 

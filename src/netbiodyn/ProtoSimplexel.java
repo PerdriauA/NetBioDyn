@@ -47,14 +47,16 @@ public class ProtoSimplexel extends ProtoBioDyn {
         toSave.add(new String("\tcouleur:").concat(((Integer) this.Couleur.getRGB()).toString()) + "\n");
         toSave.add(new String("\tdemie_vie:").concat(((Double) this.DemieVie).toString()) + "\n");
         toSave.add(new String("\tvidable:").concat(((Boolean) this.Vidable).toString()) + "\n");
+        toSave.add(new String("\tcompartment:").concat(((String) this.Compartment).toString()) + "\n");
         return toSave;
     }
 
 
     public double DemieVie = 0;
-    public Color Couleur = Color.BLUE;
+    public Color Couleur = Color.RED;
     public boolean Vidable = true;
-
+    public String Compartment="cytosol";
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JTextArea _description;
     public javax.swing.JScrollPane jScrollPane2;
