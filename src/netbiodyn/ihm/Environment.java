@@ -118,7 +118,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private Graphics g_mem = null;
 
     // Images de décoration des boutons
-    private ImageIcon icon_paint_move, icon_paint_stylo, icon_paint_spray, icon_paint_ligne, icon_paint_random, icon_paint_gomme;
+    private ImageIcon icon_paint_move, icon_paint_stylo, icon_paint_spray, icon_paint_ligne, icon_paint_rond, icon_paint_random, icon_paint_gomme;
     private ImageIcon icon_bouton_play, icon_bouton_pause, icon_bouton_step, icon_bouton_stop;
     private ImageIcon icon_bouton_new, icon_bouton_open, icon_bouton_save;
     private ImageIcon icon_interogation;
@@ -273,6 +273,14 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 icon_paint_ligne = new ImageIcon(img);
                 this.checkBox_paint_ligne.setIcon(icon_paint_ligne);
             }
+            // Bouton Rond
+            {
+                url = getClass().getClassLoader().getResource("Images/paint_rond.png");
+                BufferedImage img;
+                img = ImageIO.read(url);
+                icon_paint_rond = new ImageIcon(img);
+                this.checkBox_paint_rond.setIcon(icon_paint_rond);
+            }
             // Bouton Random
             {
                 url = getClass().getClassLoader().getResource("Images/paint_random.png");
@@ -385,6 +393,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         checkBox_paint_stylo = new javax.swing.JButton();
         checkBox_paint_spray = new javax.swing.JButton();
         checkBox_paint_ligne = new javax.swing.JButton();
+        checkBox_paint_rond = new javax.swing.JButton();
         checkBox_paint_random = new javax.swing.JButton();
         checkBox_paint_gomme = new javax.swing.JButton();
         jPanelBehaviors = new javax.swing.JPanel();
@@ -616,6 +625,18 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 checkBox_paint_ligneMousePressed(evt);
             }
         });
+        
+        checkBox_paint_rond.setToolTipText("Circle");
+        checkBox_paint_rond.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        checkBox_paint_rond.setPreferredSize(new java.awt.Dimension(30, 30));
+        checkBox_paint_rond.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkBox_paint_rondMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                checkBox_paint_rondMousePressed(evt);
+            }
+        });
 
         checkBox_paint_random.setToolTipText("Random");
         checkBox_paint_random.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -664,6 +685,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                         .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_ligne, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
+                        .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_random, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_gomme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -689,6 +712,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                     .addComponent(checkBox_paint_stylo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_spray, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_ligne, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_random, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_gomme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -1346,6 +1370,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private void checkBox_paint_ligneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_ligneMouseClicked
         releverToutesCheckBoxPaint(checkBox_paint_ligne);
 	}//GEN-LAST:event_checkBox_paint_ligneMouseClicked
+    
+    private void checkBox_paint_rondMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_ligneMouseClicked
+        releverToutesCheckBoxPaint(checkBox_paint_rond);
+	}//GEN-LAST:event_checkBox_paint_ligneMouseClicked
 
     private void deplacer_vue(java.awt.event.MouseEvent evt) {
         if (_mouse_left_down == true) {
@@ -1398,6 +1426,9 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             if (checkBox_paint_ligne.getBackground().equals(Color.GREEN)) {
                 Paint_Ligne(evt.getX(), evt.getY());
             }
+            if (checkBox_paint_rond.getBackground().equals(Color.GREEN)) {
+                Paint_Rond(evt.getX(), evt.getY());
+            }
             if (checkBox_paint_random.getBackground().equals(Color.GREEN)) {
                 Paint_Aleat(evt.getX(), evt.getY());
             }
@@ -1440,7 +1471,21 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                     controller.addEntityInstances(lst_pts);
                 }
             }
-        } else if (checkBox_paint_random.getBackground().equals(Color.GREEN)) {
+        } 
+        else if (checkBox_paint_rond.getBackground().equals(Color.GREEN)) { //.getX() == jLabel_sel.getX()) {
+            if (dataGridView_entites.getSelectedIndex() >= 0) {
+                int mouseX = evt.getX();
+                int mouseY = evt.getY();
+                int new_x = (int) windowToUniverse(_observed_left, _observed_left + _observed_width, pictureBox_Env.getWidth(), mouseX);
+                int new_y = (int) windowToUniverse(_observed_top, _observed_top + _observed_height, pictureBox_Env.getHeight(), mouseY);
+                int new_z = jSliderZ.getValue();
+                if (new_x >= 0 && new_y >= 0 && new_x < getTailleX() && new_y < getTailleY()) {
+                    ArrayList<UtilPoint3D> lst_pts = UtilPoint3D.BresenhamRond3D(_case_x0, _case_y0, new_z, new_x, new_y, new_z);
+                    controller.addEntityInstances(lst_pts);
+                }
+            }
+        } 
+        else if (checkBox_paint_random.getBackground().equals(Color.GREEN)) {
             if (dataGridView_entites.getSelectedIndex() >= 0) {
                 int mouseX = evt.getX();
                 int mouseY = evt.getY();
@@ -1566,6 +1611,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
     private void checkBox_paint_ligneMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_ligneMousePressed
         releverToutesCheckBoxPaint(checkBox_paint_ligne);
+    }//GEN-LAST:event_checkBox_paint_ligneMousePressed
+    
+    private void checkBox_paint_rondMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_ligneMousePressed
+        releverToutesCheckBoxPaint(checkBox_paint_rond);
     }//GEN-LAST:event_checkBox_paint_ligneMousePressed
 
     private void checkBox_paint_gommeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_gommeMousePressed
@@ -1924,6 +1973,9 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         if (sauf != checkBox_paint_ligne) {
             checkBox_paint_ligne.setBackground(Color.RED);
         }
+        if (sauf != checkBox_paint_rond) {
+            checkBox_paint_rond.setBackground(Color.RED);
+        }
         if (sauf != checkBox_paint_random) {
             checkBox_paint_random.setBackground(Color.RED);
         }
@@ -1968,6 +2020,16 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             int x0 = (int) universeToWindow(_observed_left, _observed_width + _observed_left, _case_x0 + 0.5f, pictureBox_Env.getWidth());
             int y0 = (int) universeToWindow(_observed_top, _observed_height + _observed_top, _case_y0 + 0.5f, pictureBox_Env.getHeight());
             drawAll(x0, y0, mouseX, mouseY, 1);
+        }
+    }
+    
+    private void Paint_Rond(int mouseX, int mouseY) {
+        int new_x = (int) windowToUniverse(_observed_left, _observed_left + _observed_width, pictureBox_Env.getWidth(), mouseX);
+        int new_y = (int) windowToUniverse(_observed_top, _observed_top + _observed_height, pictureBox_Env.getHeight(), mouseY);
+        if (new_x >= 0 && new_y >= 0 && new_x < getTailleX() && new_y < getTailleY()) {
+            int x0 = (int) universeToWindow(_observed_left, _observed_width + _observed_left, _case_x0 + 0.5f, pictureBox_Env.getWidth());
+            int y0 = (int) universeToWindow(_observed_top, _observed_height + _observed_top, _case_y0 + 0.5f, pictureBox_Env.getHeight());
+            drawAll(x0, y0, mouseX, mouseY, 3);
         }
     }
 
@@ -2323,6 +2385,12 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             g_mem.drawLine(x0, y0, x0, y1);
             g_mem.drawLine(x1, y1, x0, y1);
         }
+        
+        if (forme == 3) {
+            g_mem.setColor(Color.BLACK);
+            int r = (int) Math.sqrt(Math.pow(x1-x0, 2)+Math.pow(y1-y0,2));
+            g_mem.drawOval((int) (x0-r), (int) (y0-r), (int) (2*r), (int) (2*r));
+        }
 
         // Fuzzy
         if (this.checkBox_Flou.isSelected() == true) {
@@ -2374,6 +2442,9 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                         dataGridView_entites.setSelectedIndex(0);
                     }
                     if (checkBox_paint_ligne.getBackground().equals(Color.GREEN)) {
+                        Paint_Ligne(pictureBox_Env.getMousePosition().x, pictureBox_Env.getMousePosition().y);
+                    }
+                    if (checkBox_paint_rond.getBackground().equals(Color.GREEN)) {
                         Paint_Ligne(pictureBox_Env.getMousePosition().x, pictureBox_Env.getMousePosition().y);
                     }
                     if (checkBox_paint_random.getBackground().equals(Color.GREEN)) {
@@ -2668,6 +2739,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private javax.swing.JCheckBox checkBox_avi;
     private javax.swing.JButton checkBox_paint_gomme;
     private javax.swing.JButton checkBox_paint_ligne;
+    private javax.swing.JButton checkBox_paint_rond;
     private javax.swing.JButton checkBox_paint_move;
     private javax.swing.JButton checkBox_paint_random;
     private javax.swing.JButton checkBox_paint_spray;
@@ -2725,6 +2797,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jButtonEditEntity.setEnabled(!bool);
         checkBox_paint_gomme.setEnabled(!bool);
         checkBox_paint_ligne.setEnabled(!bool);
+        checkBox_paint_rond.setEnabled(!bool);
         checkBox_paint_move.setEnabled(!bool);
         checkBox_paint_random.setEnabled(!bool);
         checkBox_paint_spray.setEnabled(!bool);
