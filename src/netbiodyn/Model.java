@@ -3,22 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package netbiodyn;
+package netbiodyn;//On crée un package, cette ligne indiquant que le fichier actuel sera dans ce package 
+
 
 import netbiodyn.util.Serialized;
 import netbiodyn.ihm.Env_Parameters;
 import netbiodyn.util.SaverLoader;
 import netbiodyn.util.FileSaverLoader;
 import netbiodyn.ihm.Environment;
-import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.event.EventListenerList;
+import java.util.ArrayList; //Création de listes
+import java.util.HashMap; //Création de hashmap
+import javax.swing.event.EventListenerList; //Création possible de listeners d'événements
 
 import netbiodyn.ihm.IhmListener;
 import netbiodyn.util.Lang;
 import netbiodyn.util.RandomGen;
 import netbiodyn.util.UtilPoint3D;
-import jadeAgentServer.util.Parameter;
+import jadeAgentServer.util.Parameter; //Mise en place de serveur multi-agents ?
 
 /**
  *
@@ -26,21 +27,21 @@ import jadeAgentServer.util.Parameter;
  */
 public class Model {
 
-    private final EventListenerList listeners;
-    private Env_Parameters parameters;
+    private final EventListenerList listeners; //Liste des listeners
+    private Env_Parameters parameters; //Paramètres de l'environnement
 
-    private ArrayList<Entity> entities; // Entity types
-    private ArrayList<Behavior> behaviors; // Behaviour
-    private AllInstances instances;
+    private ArrayList<Entity> entities; // Types d'entités
+    private ArrayList<Behavior> behaviors; // Comportements
+    private AllInstances instances; //Instances
 
-    private SaverLoader sl;
+    private SaverLoader sl; //Création de la partie import/export
 
     public Model(Env_Parameters parameters) {
-        listeners = new EventListenerList();
-        this.parameters = parameters;
+        listeners = new EventListenerList(); //Mise en place des futurs listeners
+        this.parameters = parameters; //Mise en place des paramètres du modèle
 
-        entities = new ArrayList<>();
-        behaviors = new ArrayList<>();
+        entities = new ArrayList<>(); //Mise en place des futures entités
+        behaviors = new ArrayList<>(); //Mise en place des futurs comportements
         instances = new AllInstances(parameters.getX(), parameters.getY(), parameters.getZ());
     }
 
@@ -494,3 +495,4 @@ public class Model {
     }
 
 }
+

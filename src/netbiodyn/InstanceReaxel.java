@@ -30,6 +30,7 @@ import java.awt.Image;
 /**
  *
  * @author ballet
+ *hérite d'instance simplexel crée des réaxel avec coordonnée couleur demi vie  
  */
 public class InstanceReaxel extends InstanceSimplexel implements Cloneable{
 

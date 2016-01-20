@@ -111,3 +111,4 @@ public class Entity extends ProtoSimplexel {
     // End of variables declaration//GEN-END:variables
 
 }
+
