@@ -55,8 +55,8 @@ import netbiodyn.RunnableSimulator; //Permet de lancer l'application
  */
 public class Controller {
 
-    private final static int FRAME_WIDTH = 1900; //définit la largeur de la fenêtre de l'application
-    private final static int FRAME_HEIGHT = 1600; //définit la hauteur de la fenêtre de l'application
+    private final static int FRAME_WIDTH = 1210; //définit la largeur de la fenêtre de l'application
+    private final static int FRAME_HEIGHT = 820; //définit la hauteur de la fenêtre de l'application
     private final int init_x = 100, init_y = 100, init_z = 1; //vue en 2D (chercher pour init_x et init_y, pas de différences si changement aux premiers tests)
 
     private final Environment env; //initialisation dans l'objet de la partie Environnement de la fenêtre
@@ -175,6 +175,20 @@ public class Controller {
      *
      * @see Entity and WndEditNoeud
      */
+    
+//    public void addComportment() {
+//        if (simulator.isRunning()) {
+//            this.pauseSimulation();
+//        }
+
+//        WndEditNoeud wc = new WndEditNoeud(model.getListManipulesNoeuds(), model.getListManipulesReactions());
+//        wc.WndCliValue_Load(null);
+//        wc.setVisible(true);
+//        if (wc.getDialogResult().equals("OK") && !wc._cli._etiquettes.equals("")) {
+//            model.addProtoReaxel(wc._cli);
+//        }
+//    }
+    
     public void addEntity() {
         if (simulator.isRunning()) {
             this.pauseSimulation();

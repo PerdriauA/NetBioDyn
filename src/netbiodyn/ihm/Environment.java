@@ -48,6 +48,7 @@ import netbiodyn.util.Serialized;
 import netbiodyn.InstanceReaxel;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
+import netbiodyn.Compartment;
 import netbiodyn.ProtoSimplexel;
 import netbiodyn.util.Lang;
 import netbiodyn.util.RandomGen;
@@ -73,6 +74,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
     private ArrayList<Entity> _ListManipulesNoeuds = new ArrayList<>();
     private ArrayList<Behavior> _ListManipulesReactions = new ArrayList<>();
+    private ArrayList<Compartment> _ListManipulesCompartment = new ArrayList<>();
     private AllInstances instances;
 
     private boolean _animation_courbes = false;
@@ -109,6 +111,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
     private Rectangle init_bounds_sim = new Rectangle();
     private Rectangle init_bounds_env = new Rectangle();
+    private Rectangle init_bounds_comp = new Rectangle();
     private Rectangle init_bounds_ent = new Rectangle();
     private Rectangle init_bounds_beh = new Rectangle();
     private Rectangle init_bounds_curv = new Rectangle();
@@ -382,6 +385,17 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jLabel_version = new javax.swing.JLabel();
         jLabel_NetBioDyn = new javax.swing.JLabel();
         bouton_lang = new javax.swing.JButton();
+        
+        // Compartment
+        jPanelCompartment = new javax.swing.JPanel();
+        jLabelCompartment = new javax.swing.JLabel();
+        jButtonAddCompartment = new javax.swing.JButton();
+        jButtonEditCompartment = new javax.swing.JButton();
+        jButtonDelCompartment = new javax.swing.JButton();
+        jScrollPane_Compartment = new javax.swing.JScrollPane();
+        dataGridView_Compartment = new javax.swing.JList();
+        
+        // Entities
         jPanelEntities = new javax.swing.JPanel();
         jLabelEntites = new javax.swing.JLabel();
         jButtonAddEntity = new javax.swing.JButton();
@@ -396,6 +410,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         checkBox_paint_rond = new javax.swing.JButton();
         checkBox_paint_random = new javax.swing.JButton();
         checkBox_paint_gomme = new javax.swing.JButton();
+        
+        // Behaviors
         jPanelBehaviors = new javax.swing.JPanel();
         jLabelComportements = new javax.swing.JLabel();
         jButtonAddBehav = new javax.swing.JButton();
@@ -517,7 +533,100 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         });
         add(bouton_lang);
         bouton_lang.setBounds(240, 10, 70, 20);
+        
+        // Compartment
+        jPanelCompartment.setBackground(new java.awt.Color(153, 153, 255));
+        jPanelCompartment.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelCompartment.setMinimumSize(new java.awt.Dimension(160, 230));
+        jPanelCompartment.setPreferredSize(new java.awt.Dimension(160, 230));
+        
+        jLabelCompartment.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        jLabelCompartment.setForeground(new java.awt.Color(102, 0, 153));
+        jLabelCompartment.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelCompartment.setText("Compartment");
 
+        jButtonAddCompartment.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jButtonAddCompartment.setText("+");
+        jButtonAddCompartment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddCompartmentActionPerformed(evt);
+            }
+        });
+
+        jButtonEditCompartment.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jButtonEditCompartment.setText("Edit");
+        jButtonEditCompartment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditCompartmentActionPerformed(evt);
+            }
+        });
+
+        jButtonDelCompartment.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jButtonDelCompartment.setText("-");
+        jButtonDelCompartment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDelCompartmentActionPerformed(evt);
+            }
+        });
+
+        dataGridView_Compartment.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        dataGridView_Compartment.setToolTipText("Created Compartment");
+        dataGridView_Compartment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dataGridView_entitesMouseClicked(evt);
+            }
+        });
+        dataGridView_Compartment.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                dataGridView_entitesValueChanged(evt);
+            }
+        });
+        dataGridView_Compartment.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dataGridView_entitesPropertyChange(evt);
+            }
+        });
+        jScrollPane_Compartment.setViewportView(dataGridView_Compartment);
+
+        javax.swing.GroupLayout jPanelCompartmentLayout = new javax.swing.GroupLayout(jPanelCompartment);
+        jPanelCompartment.setLayout(jPanelCompartmentLayout);
+        jPanelCompartmentLayout.setHorizontalGroup(
+            jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCompartmentLayout.createSequentialGroup()
+                .addComponent(jButtonAddCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEditCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDelCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+            .addGroup(jPanelCompartmentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane_Compartment, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanelCompartmentLayout.setVerticalGroup(
+            jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCompartmentLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelCompartment)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonAddCompartment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonDelCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonEditCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane_Compartment, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addContainerGap())
+        );
+
+        add(jPanelCompartment);
+        jPanelCompartment.setBounds(10, 30, 160, 230);
+        
+        
+        // Entities
         jPanelEntities.setBackground(new java.awt.Color(153, 153, 255));
         jPanelEntities.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelEntities.setMinimumSize(new java.awt.Dimension(160, 230));
@@ -553,11 +662,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         });
 
         dataGridView_entites.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        dataGridView_entites.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+
         dataGridView_entites.setToolTipText("Created Entities");
         dataGridView_entites.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -719,7 +824,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         );
 
         add(jPanelEntities);
-        jPanelEntities.setBounds(0, 30, 160, 230);
+        jPanelEntities.setBounds(10, 260, 160, 230);
 
         jPanelBehaviors.setBackground(new java.awt.Color(153, 153, 255));
         jPanelBehaviors.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -835,7 +940,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         );
 
         add(jPanelBehaviors);
-        jPanelBehaviors.setBounds(0, 260, 160, 220);
+        jPanelBehaviors.setBounds(10, 490, 160, 220);
 
         jPanelEnv.setBackground(new java.awt.Color(153, 153, 255));
         jPanelEnv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -949,7 +1054,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         );
 
         add(jPanelEnv);
-        jPanelEnv.setBounds(0, 480, 590, 70);
+        jPanelEnv.setBounds(10, 710, 880, 70);
 
         jPanelCurves.setBackground(new java.awt.Color(153, 153, 255));
         jPanelCurves.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -1030,7 +1135,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         abscissaBox.getAccessibleContext().setAccessibleName("");
 
         add(jPanelCurves);
-        jPanelCurves.setBounds(590, 30, 280, 390);
+        jPanelCurves.setBounds(890, 30, 300, 620);
 
         jPanelMisc.setBackground(new java.awt.Color(153, 153, 255));
         jPanelMisc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -1144,7 +1249,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         );
 
         add(jPanelMisc);
-        jPanelMisc.setBounds(590, 420, 280, 130);
+        jPanelMisc.setBounds(890, 650, 300, 130);
 
         jPanelSimulator.setBackground(new java.awt.Color(153, 153, 255));
         jPanelSimulator.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -1152,8 +1257,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
         pictureBox_Env.setBackground(new java.awt.Color(255, 255, 255));
         pictureBox_Env.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pictureBox_Env.setMaximumSize(new java.awt.Dimension(410, 410));
-        pictureBox_Env.setMinimumSize(new java.awt.Dimension(410, 410));
+        pictureBox_Env.setMaximumSize(new java.awt.Dimension(400, 400));
+        pictureBox_Env.setMinimumSize(new java.awt.Dimension(400, 400));
         pictureBox_Env.setOpaque(true);
         pictureBox_Env.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
@@ -1241,7 +1346,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         jPanelSimulator.setLayout(jPanelSimulatorLayout);
         jPanelSimulatorLayout.setHorizontalGroup(
             jPanelSimulatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE , Short.MAX_VALUE)
             .addGroup(jPanelSimulatorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelSimulateur, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1279,11 +1384,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSliderSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
+                .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(jPanelSimulator);
-        jPanelSimulator.setBounds(160, 30, 430, 455);
+        jPanelSimulator.setBounds(170, 30, 730, 680);
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_play1MouseClicked(java.awt.event.MouseEvent evt) {
@@ -1415,6 +1520,9 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
             if (getDataGridView_entites().getSelectedIndex() < 0) {
                 dataGridView_entites.setSelectedIndex(0);
+            }
+            if (getDataGridView_Compartment().getSelectedIndex() < 0) {
+                dataGridView_Compartment.setSelectedIndex(0);
             }
 
             if (checkBox_paint_stylo.getBackground().equals(Color.GREEN)) {
@@ -1620,6 +1728,18 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private void checkBox_paint_gommeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBox_paint_gommeMousePressed
         releverToutesCheckBoxPaint(checkBox_paint_gomme);
     }//GEN-LAST:event_checkBox_paint_gommeMousePressed
+ 
+    private void jButtonAddCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEntityActionPerformed
+        //controller.addCompartment();
+    }//GEN-LAST:event_jButtonAddEntityActionPerformed
+
+    private void jButtonDelCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelEntityActionPerformed
+        //controller.delCompartment(dataGridView_entites.getSelectedIndices());
+    }//GEN-LAST:event_jButtonDelEntityActionPerformed
+
+    private void jButtonEditCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditEntityActionPerformed
+        //controller.editCompartment();
+    }//GEN-LAST:event_jButtonEditEntityActionPerformed
 
     private void dataGridView_entitesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataGridView_entitesPropertyChange
         dessinerCourbes();
@@ -1678,6 +1798,13 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             jLabelProba.setText("p=" + (jSliderProba.getValue() / 10) / 100.0);
         }
     }//GEN-LAST:event_jSliderProbaStateChanged
+    
+    private void dataGridView_ComportmentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataGridView_entitesMouseClicked
+//        if (evt.getClickCount() == 2 && !evt.isConsumed() && !freezed) {
+//            evt.consume();
+//            controller.editComportment();
+//       }
+    }//GEN-LAST:event_dataGridView_entitesMouseClicked
 
     private void dataGridView_entitesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataGridView_entitesMouseClicked
         if (evt.getClickCount() == 2 && !evt.isConsumed() && !freezed) {
@@ -1771,6 +1898,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             // Simulator panel init size
             init_bounds_sim = (Rectangle) jPanelSimulator.getBounds().clone();
             init_bounds_env = (Rectangle) jPanelEnv.getBounds().clone();
+            init_bounds_comp = (Rectangle) jPanelCompartment.getBounds().clone();
             init_bounds_ent = (Rectangle) jPanelEntities.getBounds().clone();
             init_bounds_beh = (Rectangle) jPanelBehaviors.getBounds().clone();
             init_bounds_curv = (Rectangle) jPanelCurves.getBounds().clone();
@@ -1796,6 +1924,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         // Move the Panels
         jPanelSimulator.setBounds(init_bounds_sim.x, init_bounds_sim.y, init_bounds_sim.width + dfx, init_bounds_sim.height + dfy);
         jPanelEnv.setBounds(init_bounds_env.x, init_bounds_env.y + dfy, init_bounds_env.width + dfx, init_bounds_env.height);
+        jPanelCompartment.setBounds(init_bounds_comp.x, init_bounds_comp.y, init_bounds_comp.width, init_bounds_comp.height + dfy / 2);
         jPanelEntities.setBounds(init_bounds_ent.x, init_bounds_ent.y, init_bounds_ent.width, init_bounds_ent.height + dfy / 2);
         jPanelBehaviors.setBounds(init_bounds_beh.x, init_bounds_beh.y + dfy / 2, init_bounds_beh.width, init_bounds_beh.height + dfy / 2);
         jPanelCurves.setBounds(init_bounds_curv.x + dfx, init_bounds_curv.y, init_bounds_curv.width, init_bounds_curv.height + dfy / 2);
@@ -2055,6 +2184,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     public String str_aujout_nbr(String nom, Integer nombre) {
         return (nom).concat(", ").concat(nombre.toString());
     }
+    
 
     public void placerComportementsVisiblesDansPanel() {
         ArrayList<Behavior> lstCmpt = getListManipulesReactions();
@@ -2150,6 +2280,16 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             model.addElement(nom_moteur);
         }
         dataGridView_comportements.setModel(model);
+    }
+    
+    public void fillDataGridCompartment() {
+        // Compartiments a placer dans la dataGrid
+        DefaultListModel model = new DefaultListModel();
+        for (Compartment moteur : this._ListManipulesCompartment) {
+            String nom_moteur = moteur.getEtiquettes();
+            model.addElement(nom_moteur);
+        }
+        dataGridView_Compartment.setModel(model);
     }
 
     private ArrayList<String> getSelectedEntities() {
@@ -2643,9 +2783,17 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     public ArrayList<Behavior> getListManipulesReactions() {
         return _ListManipulesReactions;
     }
+    
+    public ArrayList<Compartment> getListManipulesCompartment() {
+        return _ListManipulesCompartment;
+    }
 
-    public void setListManipulesReactions(ArrayList<Behavior> _ListManipulesReactions) {
-        this._ListManipulesReactions = _ListManipulesReactions;
+    public void setListManipulesReactions(ArrayList<Behavior> _ListManipulesCompartment) {
+        this._ListManipulesReactions = _ListManipulesCompartment;
+    }
+    
+    public void setListManipulesCompartment(ArrayList<Compartment> _ListManipulesReactions) {
+        this._ListManipulesCompartment = _ListManipulesCompartment;
     }
 
     public HashMap<String, Integer> getDico_courbes() {
@@ -2674,6 +2822,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
     public JList getDataGridView_entites() {
         return dataGridView_entites;
+    }
+    
+    public JList getDataGridView_Compartment() {
+        return dataGridView_Compartment;
     }
 
     public JList getDataGridView_comportements() {
@@ -2746,17 +2898,22 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private javax.swing.JButton checkBox_paint_stylo;
     private javax.swing.JList dataGridView_comportements;
     private javax.swing.JList dataGridView_entites;
+    private javax.swing.JList dataGridView_Compartment;
     private javax.swing.JButton jButton3D;
     private javax.swing.JButton jButtonAddBehav;
     private javax.swing.JButton jButtonAddEntity;
+    private javax.swing.JButton jButtonAddCompartment;
     private javax.swing.JButton jButtonDelBehav;
     private javax.swing.JButton jButtonDelEntity;
+    private javax.swing.JButton jButtonDelCompartment;
     private javax.swing.JButton jButtonEditBehav;
     private javax.swing.JButton jButtonEditEntity;
+    private javax.swing.JButton jButtonEditCompartment;
     private javax.swing.JLabel jLabelComportements;
     private javax.swing.JLabel jLabelCourbes;
     private javax.swing.JLabel jLabelDivers;
     private javax.swing.JLabel jLabelEntites;
+    private javax.swing.JLabel jLabelCompartment;
     private javax.swing.JLabel jLabelEnvironnement;
     private javax.swing.JLabel jLabelProba;
     private javax.swing.JLabel jLabelSimulateur;
@@ -2770,11 +2927,13 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     private javax.swing.JPanel jPanelBehaviors;
     private javax.swing.JPanel jPanelCurves;
     private javax.swing.JPanel jPanelEntities;
+    private javax.swing.JPanel jPanelCompartment;
     private javax.swing.JPanel jPanelEnv;
     private javax.swing.JPanel jPanelMisc;
     private javax.swing.JPanel jPanelSimulator;
     private javax.swing.JScrollPane jScrollPaneBehaviors;
     private javax.swing.JScrollPane jScrollPane_Entities;
+    private javax.swing.JScrollPane jScrollPane_Compartment;
     private javax.swing.JSlider jSliderProba;
     private javax.swing.JSlider jSliderSpeed;
     public javax.swing.JSlider jSliderZ;
@@ -2789,9 +2948,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
 
     public void freeze(boolean bool) {
         freezed = bool;
-        jButtonAddEntity.setEnabled(!bool);
+        jButtonAddCompartment.setEnabled(!bool);
+        jButtonDelCompartment.setEnabled(!bool);
         jButtonAddBehav.setEnabled(!bool);
         jButtonDelBehav.setEnabled(!bool);
+        jButtonAddEntity.setEnabled(!bool);
         jButtonDelEntity.setEnabled(!bool);
         jButtonEditBehav.setEnabled(!bool);
         jButtonEditEntity.setEnabled(!bool);
