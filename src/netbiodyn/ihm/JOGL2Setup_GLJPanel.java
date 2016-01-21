@@ -49,6 +49,7 @@ import netbiodyn.util.Serialized;
 import netbiodyn.InstanceReaxel;
 import netbiodyn.Behavior;
 import netbiodyn.Entity;
+import netbiodyn.Compartment;
 
 /**
  * JOGL 2.0 Program Template (GLJPanel) This is a "Component" which can be added
@@ -598,4 +599,10 @@ public class JOGL2Setup_GLJPanel extends GLJPanel implements IhmListener, GLEven
     @Override
     public void ready() {
     }
+
+	@Override
+	public void CompartmentUpdate(ArrayList<Compartment> compartment) {
+		// TODO Auto-generated method stub
+		
+	}
 }

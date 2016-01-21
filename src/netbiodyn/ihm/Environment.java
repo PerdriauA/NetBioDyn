@@ -181,6 +181,11 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         this._ListManipulesReactions = behaviours;
         fillDataGridBehaviours();
     }
+    
+    public void CompartmentUpdate(ArrayList<Compartment> compartment) {
+        this._ListManipulesCompartment = compartment;
+        fillDataGridCompartment();
+    }
 
     @Override
     public void ready() {
@@ -1732,15 +1737,15 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
     }//GEN-LAST:event_checkBox_paint_gommeMousePressed
  
     private void jButtonAddCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEntityActionPerformed
-        //controller.addCompartment();
+        controller.addCompartment();
     }//GEN-LAST:event_jButtonAddEntityActionPerformed
 
     private void jButtonDelCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelEntityActionPerformed
-        //controller.delCompartment(dataGridView_entites.getSelectedIndices());
+        controller.delCompartment(dataGridView_Compartment.getSelectedIndices());
     }//GEN-LAST:event_jButtonDelEntityActionPerformed
 
     private void jButtonEditCompartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditEntityActionPerformed
-        //controller.editCompartment();
+        controller.editCompartment();
     }//GEN-LAST:event_jButtonEditEntityActionPerformed
 
     private void dataGridView_entitesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dataGridView_entitesPropertyChange
@@ -2288,7 +2293,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
         // Compartiments a placer dans la dataGrid
         DefaultListModel model = new DefaultListModel();
         for (Compartment moteur : this._ListManipulesCompartment) {
-            String nom_moteur = moteur.getEtiquettes();
+            String nom_moteur = moteur.getEtiquette();
             model.addElement(nom_moteur);
         }
         dataGridView_Compartment.setModel(model);
@@ -2986,5 +2991,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             }
         }
     }
+
 
 }

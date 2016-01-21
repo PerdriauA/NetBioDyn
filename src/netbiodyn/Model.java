@@ -30,6 +30,7 @@ public class Model {
     private final EventListenerList listeners; //Liste des listeners
     private Env_Parameters parameters; //Paramètres de l'environnement
 
+    private ArrayList<Compartment> compartment; // Comportements
     private ArrayList<Entity> entities; // Types d'entités
     private ArrayList<Behavior> behaviors; // Comportements
     private AllInstances instances; //Instances
@@ -40,16 +41,18 @@ public class Model {
         listeners = new EventListenerList(); //Mise en place des futurs listeners
         this.parameters = parameters; //Mise en place des paramètres du modèle
 
+        compartment = new ArrayList<>(); //Mise en place des futurs compartiments
         entities = new ArrayList<>(); //Mise en place des futures entités
         behaviors = new ArrayList<>(); //Mise en place des futurs comportements
         instances = new AllInstances(parameters.getX(), parameters.getY(), parameters.getZ());
     }
 
-    private Model(Env_Parameters parameters, AllInstances instances, ArrayList<Entity> entities, ArrayList<Behavior> behaviors) {
+    private Model(Env_Parameters parameters, AllInstances instances, ArrayList<Entity> entities, ArrayList<Behavior> behaviors, ArrayList<Compartment> compartment) {
         this.parameters = parameters;
         this.instances = instances;
         this.entities = entities;
         this.behaviors = behaviors;
+        this.compartment = compartment;
         listeners = new EventListenerList();
     }
 
@@ -60,10 +63,12 @@ public class Model {
     public void newModel() {
         entities = new ArrayList<>();
         behaviors = new ArrayList<>();
+        compartment = new ArrayList<>();
         instances = new AllInstances(parameters.getX(), parameters.getY(), parameters.getZ());
         for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
             listen.protoEntityUpdate(getCopyListManipulesNoeuds(), getInitialState());
             listen.moteurReactionUpdate(getCopyListManipulesReactions());
+            listen.CompartmentUpdate(getCopyListManipulesCompartment());
             listen.matrixUpdate(getInstances(), getInitialState(), 0);
         }
     }
@@ -188,6 +193,16 @@ public class Model {
         }
         return null;
     }
+    
+    public Compartment getCompartment(String name) {
+        for (int i = compartment.size() - 1; i >= 0; i--) {
+            Compartment comp = compartment.get(i);
+            if (comp.getEtiquette().equals(name)) {
+                return comp.clone();
+            }
+        }
+        return null;
+    }
 
     public ArrayList<String> getEntitiesNames() {
         ArrayList<String> names = new ArrayList<>();
@@ -229,7 +244,39 @@ public class Model {
             listen.matrixUpdate(getInstances(), getInitialState(), 0);
         }
     }
-
+    
+    public void addCompartment(Compartment comp) {
+        compartment.add(comp);
+        for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
+            listen.CompartmentUpdate(getCopyListManipulesCompartment());
+        }
+    }
+    
+    public void delCompartment(ArrayList<String> compartment) {
+        for (String name : compartment) {
+            Compartment r = this.getCompartment(name);
+            compartment.remove(r);
+        }
+        for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
+            listen.CompartmentUpdate(getCopyListManipulesCompartment());
+        }
+    }
+    
+    public void editCompartment(Compartment m, String old_name) {
+        int index = 0;
+        for (int i = 0; i < compartment.size(); i++) {
+            if (compartment.get(i).getEtiquette().equals(old_name)) {
+            	compartment.remove(i);
+                index = i;
+                i = compartment.size();
+            }
+        }
+        compartment.add(index, m);
+        for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
+            listen.CompartmentUpdate(getCopyListManipulesCompartment());
+        }
+    }
+    
     public void addProtoReaxel(Entity entity) {
         entities.add(entity);
         for (final IhmListener listen : listeners.getListeners(IhmListener.class)) {
@@ -435,13 +482,17 @@ public class Model {
 
         return init;
     }
-
+    
     public ArrayList<Entity> getListManipulesNoeuds() {
         return entities;
     }
 
     public ArrayList<Behavior> getListManipulesReactions() {
         return behaviors;
+    }
+    
+    public ArrayList<Compartment> getListManipulesCompartment() {
+        return compartment;
     }
 
     public ArrayList<Entity> getCopyListManipulesNoeuds() {
@@ -455,6 +506,14 @@ public class Model {
     public ArrayList<Behavior> getCopyListManipulesReactions() {
         ArrayList<Behavior> moteurs = new ArrayList<>();
         for (Behavior r : behaviors) {
+            moteurs.add(r.clone());
+        }
+        return moteurs;
+    }
+    
+    public ArrayList<Compartment> getCopyListManipulesCompartment() {
+        ArrayList<Compartment> moteurs = new ArrayList<>();
+        for (Compartment r : compartment) {
             moteurs.add(r.clone());
         }
         return moteurs;
@@ -491,7 +550,7 @@ public class Model {
 
     @Override
     public Model clone() {
-        return new Model(getParameters(), getInstances().clone(),getListManipulesNoeuds(), getListManipulesReactions());
+        return new Model(getParameters(), getInstances().clone(),getListManipulesNoeuds(), getListManipulesReactions(), getListManipulesCompartment());
     }
 
 }

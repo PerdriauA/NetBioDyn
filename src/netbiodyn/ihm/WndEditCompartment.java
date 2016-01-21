@@ -93,10 +93,10 @@ public class WndEditCompartment extends javax.swing.JDialog {
             _cli.Couleur = new Color(RandomGen.getInstance().nextInt(250),RandomGen.getInstance().nextInt(250), RandomGen.getInstance().nextInt(250));
         }
         
-        _old_name = _cli.getEtiquettes();
+        _old_name = _cli.getEtiquette();
         _old_color = _cli.Couleur;
 
-        textBox1.setText(_cli.getEtiquettes());
+        textBox1.setText(_cli.getEtiquette());
 
         // Apparence
         buttonCouleur.setBackground(_cli.Couleur);
@@ -377,7 +377,7 @@ public class WndEditCompartment extends javax.swing.JDialog {
             return;
         }
         try {
-            _cli.setEtiquettes(textBox1.getText());
+            _cli.setEtiquette(textBox1.getText());
             _cli.getDescription().setText(richTextBox_description.getText());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);

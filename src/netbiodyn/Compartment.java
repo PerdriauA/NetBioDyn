@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 import netbiodyn.util.RandomGen;
 
@@ -15,20 +16,26 @@ public class Compartment{
 	private ArrayList<Integer> radius= new ArrayList<Integer>();
 	private Entity ent= new Entity();
 	public Color Couleur = Color.RED;
+	public boolean _visibleDansPanel = true;
 	public boolean Vidable = true;
+	protected JTextPane _description = new JTextPane();
 	
-	protected javax.swing.JTextArea _description;
+	public Compartment(){}
 	
-	public Compartment(){
-		
-		
-	}
+    public Compartment clone() {
+        Compartment comp = new Compartment();
+        comp.setEtiquette(getEtiquette());
+        comp.Couleur = Couleur;
+        comp._visibleDansPanel = _visibleDansPanel;
+        comp.Vidable = Vidable;
+        return comp;
+    }
 	
-	public javax.swing.JTextArea get_description() {
+	public JTextPane getDescription() {
 		return _description;
 	}
 
-	public void set_description(javax.swing.JTextArea _description) {
+	public void setDescription( JTextPane _description) {
 		this._description = _description;
 	}
 
@@ -47,7 +54,7 @@ public Entity entity_property(){
 	 ent.setEtiquettes(name);
      ent.Couleur = new Color(RandomGen.getInstance().nextInt(250),RandomGen.getInstance().nextInt(250), RandomGen.getInstance().nextInt(250));
      ent._visibleDansPanel=true;
-     ent.Vidable=true;
+     ent.Vidable = true;
      ent.DemieVie=0;
      ent._forme = 0;
      ent._taille = 0;
@@ -89,9 +96,6 @@ public Entity getEnt() {
 
 public void setEnt(Entity ent) {
 	this.ent = ent;
-}
-public JTextArea getDescription() {
-    return _description;
 }
 
 }

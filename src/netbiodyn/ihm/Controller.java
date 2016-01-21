@@ -29,6 +29,7 @@ import netbiodyn.AllInstances; //Pour tous les netbiodyn.* : import d'autres cla
 import netbiodyn.InstanceReaxel;
 import netbiodyn.Model;
 import netbiodyn.Behavior;
+import netbiodyn.Compartment;
 import netbiodyn.Entity;
 import netbiodyn.Simulator;
 import netbiodyn.util.FileSaverLoader;
@@ -176,18 +177,6 @@ public class Controller {
      * @see Entity and WndEditNoeud
      */
     
-//    public void addComportment() {
-//        if (simulator.isRunning()) {
-//            this.pauseSimulation();
-//        }
-
-//        WndEditNoeud wc = new WndEditNoeud(model.getListManipulesNoeuds(), model.getListManipulesReactions());
-//        wc.WndCliValue_Load(null);
-//        wc.setVisible(true);
-//        if (wc.getDialogResult().equals("OK") && !wc._cli._etiquettes.equals("")) {
-//            model.addProtoReaxel(wc._cli);
-//        }
-//    }
     
     public void addEntity() {
         if (simulator.isRunning()) {
@@ -224,18 +213,18 @@ public class Controller {
     }
 
     
- /*   public void addCompartment() {
+    public void addCompartment() {
         if (simulator.isRunning()) {
             this.pauseSimulation();
         }
 
-        WndEditCompartment wC = new WndEditCompartment(model.getListManipulesNoeuds(), model.getListManipulesReactions(),model.getListManipulesCompartments());
-        wC.WndCliCompartmentValue_Load(null);
+        WndEditCompartment wC = new WndEditCompartment(model.getListManipulesNoeuds(), model.getListManipulesReactions(),model.getListManipulesCompartment());
+        wC.WndCliValue_Load(null);
         wC.setVisible(true);
-        if (wC.getDialogResult().equals("OK") && !wC._cli._etiquettes.equals("")) {
+        if (wC.getDialogResult().equals("OK") && !wC._cli.getEtiquette().equals("")) {
             model.addCompartment(wC._cli);
         }
-    }*/
+    }
     /**
      * Change the probability of the Behaviour name by value. Called by
      * Environment
@@ -328,24 +317,21 @@ public class Controller {
         }
     }
     
-/*    public void delCompartment(int[] tab) {
+    public void delCompartment(int[] tab) {
         if (simulator.isRunning()) {
             this.pauseSimulation();
         }
-        ArrayList<String> Compartments = new ArrayList<>();
+        ArrayList<String> compartments = new ArrayList<>();
         for (int k = tab.length - 1; k >= 0; k--) {
             int i = tab[k];
             if (i >= 0) {
-                String name = UtilDivers.str_originale((String) env.getDataGridView_compartments().getModel().getElementAt(i));
-                Compartment.add(name);
+                String name = (String) env.getDataGridView_Compartment().getModel().getElementAt(i);
+                compartments.add(name);
             }
         }
-        model.delCompartment(Compartments);
-        if (!simulator.isStopped()) {
-            simulator.ProtoReaxelDeleted(Compartments);
-        }
+        model.delCompartment(compartments);
     }
-*/
+
     /**
      * Randomly adds Entity's instances in the rectangle defined by the 4 points
      * bottom_rightX, bottom_rightY, top_leftX and top_leftY, at a depth of z
@@ -506,30 +492,26 @@ public class Controller {
         }
     }
 
- /*   
+
     public void editCompartment() {
         if (simulator.isRunning()) {
             this.pauseSimulation();
         }
 
-        if (env.getDataGridView_Compartments().getSelectedIndex() >= 0) {
-            String name = UtilDivers.str_originale(env.getDataGridView_Compartments().getSelectedValue().toString());
-            Compartment p = model.getCompartment(name);
-
-            WndEditCompartment wC = new WndEditCompartment(model.getListManipulesNoeuds(),
-                    model.getListManipulesReactions(),model.getListManipulesCompartments());
-            wC.WndCliValue_Load(p);
-            wC.setVisible(true);
-            if (wc.getDialogResult().equals("OK") && !p._etiquettes.equals("")) {
-                int time = simulator.getTime();
-                model.editCompartment(p, name, time);
-                if (!simulator.isStopped()) {
-                    simulator.CompartmentEdited(p, name);
-                }
+        int i = env.getDataGridView_Compartment().getSelectedIndex();
+        if (i >= 0) {
+            String name = env.getDataGridView_Compartment().getSelectedValue().toString();
+            Compartment cpt = model.getCompartment((String) env.getDataGridView_Compartment().getModel().getElementAt(i));
+            WndEditCompartment wc = new WndEditCompartment(model.getListManipulesNoeuds(), model.getListManipulesReactions(), model.getListManipulesCompartment());
+            wc.WndCliValue_Load(cpt);
+            wc.setVisible(true);
+            String r = wc.getDialogResult();
+            if (r != null && r.equals("OK")) {
+                model.editCompartment(wc._cli, name);
             }
         }
     }
- */   
+  
     /**
      * Removes an Entity's instance defined by the coordinates x, y and z.
      * Called by Environment
