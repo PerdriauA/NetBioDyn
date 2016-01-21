@@ -42,7 +42,4 @@ public Entity entity_property(){
 }
 
 
-public String getEtiquettes(){
-	return name;
-}
 }
