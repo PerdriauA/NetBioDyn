@@ -587,6 +587,18 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
             }
         });
         jScrollPane_Compartment.setViewportView(dataGridView_Compartment);
+        
+        checkBox_paint_rond.setToolTipText("Circle");
+        checkBox_paint_rond.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        checkBox_paint_rond.setPreferredSize(new java.awt.Dimension(30, 30));
+        checkBox_paint_rond.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkBox_paint_rondMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                checkBox_paint_rondMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelCompartmentLayout = new javax.swing.GroupLayout(jPanelCompartment);
         jPanelCompartment.setLayout(jPanelCompartmentLayout);
@@ -602,7 +614,10 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 .addContainerGap()
                 .addGroup(jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelCompartment, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            	.addGroup(jPanelCompartmentLayout.createSequentialGroup()
+                    .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)))
             .addComponent(jScrollPane_Compartment, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanelCompartmentLayout.setVerticalGroup(
@@ -619,6 +634,8 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane_Compartment, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
+                .addGroup(jPanelCompartmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -730,18 +747,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                 checkBox_paint_ligneMousePressed(evt);
             }
         });
-        
-        checkBox_paint_rond.setToolTipText("Circle");
-        checkBox_paint_rond.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        checkBox_paint_rond.setPreferredSize(new java.awt.Dimension(30, 30));
-        checkBox_paint_rond.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                checkBox_paint_rondMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                checkBox_paint_rondMousePressed(evt);
-            }
-        });
 
         checkBox_paint_random.setToolTipText("Random");
         checkBox_paint_random.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -790,8 +795,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                         .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_ligne, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_random, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(checkBox_paint_gomme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -817,7 +820,6 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                     .addComponent(checkBox_paint_stylo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_spray, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_ligne, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkBox_paint_rond, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_random, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_paint_gomme, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -1384,7 +1386,7 @@ public class Environment extends javax.swing.JPanel implements IhmListener, Adju
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSliderSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pictureBox_Env, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
         );
 
         add(jPanelSimulator);
